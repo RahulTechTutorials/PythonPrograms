@@ -2,7 +2,7 @@ def main():
     '''This program is to identify the number of vowels in the string entered by the user'''
     try:
         string = input('Enter the string in which you want to find out the Vowels: ')
-        vowels = 'aeiou'
+        vowels = 'AEIOUaeiou'
         
         if string.isalpha():
             print('Here are the counts of vowels')
