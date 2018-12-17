@@ -20,6 +20,11 @@ def main():
        username : rahul
        password : luhar
        '''
+    
+    print('This program will allow you to enter the system if you put correct username and password.\
+       The correct username and password are as fellow:\
+       username : rahul\
+       password : luhar')
     count = 1
     while count <4:
         username = input('Username: ')
