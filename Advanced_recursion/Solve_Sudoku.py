@@ -1,15 +1,15 @@
 ##This function will print the board
 def printBoard(board):
-    print("*********************")
+    print("---------------------")
     for x in range(0, 9):
         if x == 3 or x == 6:
-            print("*********************")
+            print("---------------------")
         for y in range(0, 9):
             if y == 3 or y == 6:
-                print("*", end=" ")
+                print("|", end=" ")
             print(board[x][y], end=" ")
         print()
-    print("*********************")
+    print("---------------------")
 
 ## This function will check if all the empty cells have been filled
 def isFull(board):
