@@ -1,3 +1,21 @@
+import cProfile, pstats, io
+
+def profile(fnc):
+    def inner(*args , **kwargs):
+    
+
+        pr = cProfile.Profile()
+        pr.enable()
+        retval= fnc(*args , **kwargs)
+        pr.disable()
+        s = io.StringIO()
+        sortby = 'cumulative'
+        ps = pstats.Stats(pr, stream=s).sort_stats(sortby)
+        ps.print_stats()
+        print(s.getvalue())
+        return retval
+    return inner
+
 
 ## This function wil print the chess board in n* n matrix
 def printChessboard(board):
@@ -8,39 +26,26 @@ def printChessboard(board):
     
 ## This function will determine if the possible moves of knight.
 def nextMoves(board, row, col):
-    possibleMovesX = ''
-    possibleMovesY = ''
-    possibleMoves = ()
+    possibleMoves = []
     
     lst = list(range(5))
     if row+2 in lst and col-1 in lst and  board[row+2][col-1] == 0 :
-        possibleMovesX += str(row+2)
-        possibleMovesY += str(col-1)
+        possibleMoves.append(tuple([row+2,col-1]))
     if row+2 in lst and col+1 in lst and  board[row+2][col+1] == 0 :
-        possibleMovesX += str(row+2)
-        possibleMovesY += str(col+1)
+        possibleMoves.append(tuple([row+2,col+1]))
     if row-2 in lst and col-1 in lst and  board[row-2][col-1] == 0 :
-        possibleMovesX += str(row-2)
-        possibleMovesY += str(col-1)
+        possibleMoves.append(tuple([row-2,col-1]))
     if row-2 in lst and col+1 in lst and  board[row-2][col+1] == 0 :
-        possibleMovesX += str(row-2)
-        possibleMovesY += str(col+1)
+        possibleMoves.append(tuple([row-2,col+1]))
     if row+1 in lst and col-2 in lst and  board[row+1][col-2] == 0 :
-        possibleMovesX += str(row+1)
-        possibleMovesY += str(col-2)
+        possibleMoves.append(tuple([row+1,col-2]))
     if row+1 in lst and col+2 in lst and  board[row+1][col+2] == 0 :
-        possibleMovesX += str(row+1)
-        possibleMovesY += str(col+2)
+        possibleMoves.append(tuple([row+1,col+2]))
     if row-1 in lst and col-2 in lst and  board[row-1][col-2] == 0 :
-        possibleMovesX += str(row-1)
-        possibleMovesY += str(col-2)
+        possibleMoves.append(tuple([row-1,col-2]))
     if row-1 in lst and col+2 in lst and  board[row-1][col+2] == 0 :
-        possibleMovesX += str(row-1)
-        possibleMovesY += str(col+2)
-    
-    possibleMovesX = tuple(possibleMovesX)
-    possibleMovesY = tuple(possibleMovesY)
-    possibleMoves = tuple(zip(possibleMovesX,possibleMovesY))
+        possibleMoves.append(tuple([row-1,col+2]))
+
     return possibleMoves
        
 
@@ -49,14 +54,13 @@ def knightMove(board,row,col,count):
     if count == 26:
         print('The knight tour has completed\n')
         printChessboard(board)
-        return
+        return 
     else :
         possibleMoves = nextMoves(board,row,col)
         for (x,y) in possibleMoves:
-            i = int(x) ; j = int(y)
-            if board[i][j] == 0:
-                board[i][j] = count
-                knightMove(board,i,j,count+1)
+            if board[x][y] == 0:
+                board[x][y] = count
+                knightMove(board,x,y,count+1)
 
 ###This is the back tracking mechanism.
         for a in range(5):
@@ -64,9 +68,13 @@ def knightMove(board,row,col,count):
                 if board[a][b] == count-1:
                     board[a][b] = 0
         
-            
+
+
+
  
 ##Main function to call the solution
+
+@profile
 def main():
 
     chessboard = [[0 for x in range(5)] for y in range(5)]
@@ -75,4 +83,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    
