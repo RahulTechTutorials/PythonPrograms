@@ -1,0 +1,27 @@
+In this tutorial, I would like to explain why we use the below syntax:
+
+If __name__ == '__main__':
+
+If you call a script directly, then the __name__ variable is set to __main__. However if you are importing another module inside some other module, then the __name__ module for that imported module holds the name of that module. If you want the imported module to be not run at the time of the module, you check the __name__ variable and then only start the   execution. 
+
+In our example, we have two modules, fileone and filetwo. We will directly call the filet module and the __name__ variable will be set with __main__. However while we import the file one module inside the filetwo module, the __name__ variable is set two fileone. Now we have a check if __name__ == __main__: then only run the functionA and functionB. So as a result of this, functionA and functionB will not run while importing the fileone module.
+On the other hand, since the filetwo module is directly called, the __name__ variable is set to __main__ and that condition becomes true and functionC and functionD gets called. Heres the output of when we call filetwo directly.
+
+Rahuls-MacBook-Air:Basics rahuljain$ python3 filetwo.py
+Importing the fileone, the name variable is: fileone
+fileone module is imported from another module
+Called filetwo module, the name variable is: __main__
+functionC is called
+functionD is called
+
+
+Heres the output when I call the fileone directly.
+
+Rahuls-MacBook-Air:Basics rahuljain$ python3 fileone.py
+Importing the fileone, the name variable is: __main__
+functionA is called
+functionB is called
+
+Here functionA and functionB got called since fileone module is directly called and the __name__ == '__main__' condition evaluated to be true.
+
+Hope this is helpful to understand. Thanks
